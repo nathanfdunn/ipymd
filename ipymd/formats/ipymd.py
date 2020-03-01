@@ -1,16 +1,16 @@
 
-from markdown import BaseMarkdownReader, BaseMarkdownWriter
+from .markdown import MarkdownReader, MarkdownWriter
 
-class IpymdReader(BaseMarkdownReader):
+class IpymdReader(MarkdownReader):
 	pass
 
-class IpymdWriter(BaseMarkdownWriter):
+class IpymdWriter(MarkdownWriter):
 	pass
 
 
 IPYMD_FORMAT = dict(
     reader=IpymdReader,
     writer=IpymdWriter,
-    file_extension='.md',
+    file_extension='.ipymd',
     file_type='text',
 )
