@@ -44,21 +44,21 @@ def test_markdown_reader():
     _test_markdown_reader('ex1')
     _test_markdown_reader('ex2')
     _test_markdown_reader('ex3')
-    # _test_markdown_reader('ex4', ignore_notebook_meta=False)
+    _test_markdown_reader('ex4', ignore_notebook_meta=False)
 
 
 def test_markdown_writer():
     _test_markdown_writer('ex1')
     _test_markdown_writer('ex2')
     _test_markdown_writer('ex3')
-    # _test_markdown_writer('ex4')
+    _test_markdown_writer('ex4')
 
 
 def test_markdown_markdown():
     _test_markdown_markdown('ex1')
     _test_markdown_markdown('ex2')
     _test_markdown_markdown('ex3')
-    # _test_markdown_markdown('ex4')
+    _test_markdown_markdown('ex4')
 
 
 # def test_decorator():
