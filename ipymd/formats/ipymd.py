@@ -61,7 +61,11 @@ class IpymdWriter(MarkdownWriter):
 	def append_code(self, input, output=None, metadata=None):
 		code = input
 		wrapped = '```python-cell\n{code}\n```'.format(code=code.rstrip())
-		if output:
+		# We have an image
+		if '|' in output:
+			caption, data = output.split('|')
+			wrapped += '\n![output:{caption}](data:image/png;base64,{data})\n'.format(caption=caption, data=data)
+		elif output:
 			wrapped += '\n```output-cell\n{output}\n```'.format(output=output)
 		self._output.write(self.meta(metadata) + wrapped)
 

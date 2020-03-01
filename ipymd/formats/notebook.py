@@ -40,10 +40,14 @@ def _cell_output(cell):
     text_outputs = []
     for output in outputs:
         out = output.get('data', {}).get('text/plain', [])
+        image = output.get('data', {}).get('image/png', '')
         out = _ensure_string(out)
-        # HACK: skip <matplotlib ...> outputs.
-        if out.startswith('<matplotlib'):
-            continue
+        image = _ensure_string(image)
+        # # HACK: skip <matplotlib ...> outputs.
+        # if out.startswith('<matplotlib'):
+        #     continue
+        if image and out:
+            out = out + '|' + image         # hack to preserve image data
         text_outputs.append(out)
     return stdout + '\n'.join(text_outputs).rstrip()
 
