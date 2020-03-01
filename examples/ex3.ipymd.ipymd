@@ -21,8 +21,11 @@ slideshow:
   slide_type: fragment
 ...
 
-```python
->>> print("Hello world!")
+```python-cell
+print("Hello world!")
+```
+
+```output-cell
 Hello world!
 ```
 
