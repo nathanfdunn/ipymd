@@ -70,7 +70,8 @@ class IpymdWriter(MarkdownWriter):
 		# code = self._prompt.from_cell(input, output)
 		code = input
 		wrapped = '```python-cell\n{code}\n```'.format(code=code.rstrip())
-		wrapped += '\n```output-cell\n{output}\n```'.format(output=output)
+		if output:
+			wrapped += '\n```output-cell\n{output}\n```'.format(output=output)
 		self._output.write(self.meta(metadata) + wrapped)
 
 
