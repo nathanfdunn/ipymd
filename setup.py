@@ -82,6 +82,7 @@ setup(
             'notebook=ipymd.formats.notebook:NOTEBOOK_FORMAT',
             'opendocument=ipymd.formats.opendocument:ODF_FORMAT[odf]',
             'python=ipymd.formats.python:PYTHON_FORMAT',
+            'coolfmt=ipymd.formats.coolfmt:COOL_FORMAT',
         ]
     },
     install_requires=['pyyaml'],
