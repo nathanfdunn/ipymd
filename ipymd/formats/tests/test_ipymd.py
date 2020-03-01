@@ -6,31 +6,30 @@
 # Imports
 #------------------------------------------------------------------------------
 
-from ...core.format_manager import format_manager, convert
-from ...utils.utils import _diff, _show_outputs
-from ._utils import (_test_reader, _test_writer,
-                     _exec_test_file, _read_test_file)
+from ...core.format_manager import convert
+from ...utils.utils import _diff
+from ._utils import (_test_reader, _test_writer, _read_test_file)
 
 
 #------------------------------------------------------------------------------
 # Test Markdown parser
 #------------------------------------------------------------------------------
 
-def _test_markdown_reader(basename, ignore_notebook_meta=False):
+def _test_ipymd_reader(basename, ignore_notebook_meta=False):
     """Check that (test cells) and (test contents ==> cells) are the same."""
     converted, expected = _test_reader(basename, 'ipymd',
                                        ignore_notebook_meta)
     assert converted == expected
 
 
-def _test_markdown_writer(basename):
+def _test_ipymd_writer(basename):
     """Check that (test contents) and (test cells ==> contents) are the same.
     """
     converted, expected = _test_writer(basename, 'ipymd')
     assert _diff(converted, expected) == ''
 
 
-def _test_markdown_markdown(basename):
+def _test_ipymd_ipymd(basename):
     """Check that the double conversion is the identity."""
 
     contents = _read_test_file(basename, 'ipymd')
@@ -40,30 +39,28 @@ def _test_markdown_markdown(basename):
     assert _diff(contents, converted) == ''
 
 
-def test_markdown_reader():
-    _test_markdown_reader('ex1')
-    _test_markdown_reader('ex2')
-    _test_markdown_reader('ex3')
-    _test_markdown_reader('ex4', ignore_notebook_meta=False)
+def test_ipymd_reader():
+    _test_ipymd_reader('ex1')
+    _test_ipymd_reader('ex2')
+    _test_ipymd_reader('ex3')
+    _test_ipymd_reader('ex4', ignore_notebook_meta=False)
 
 
 def test_markdown_writer():
-    _test_markdown_writer('ex1')
-    _test_markdown_writer('ex2')
-    _test_markdown_writer('ex3')
-    _test_markdown_writer('ex4')
+    _test_ipymd_writer('ex1')
+    _test_ipymd_writer('ex2')
+    _test_ipymd_writer('ex3')
+    _test_ipymd_writer('ex4')
 
 
-def test_markdown_markdown():
-    _test_markdown_markdown('ex1')
-    _test_markdown_markdown('ex2')
-    _test_markdown_markdown('ex3')
-    _test_markdown_markdown('ex4')
+def test_ipymd_ipymd():
+    _test_ipymd_ipymd('ex1')
+    _test_ipymd_ipymd('ex2')
+    _test_ipymd_ipymd('ex3')
+    _test_ipymd_ipymd('ex4')
 
 
 def test_decorator():
-    """Test a bug fix where empty '...' lines were added to the output."""
-
     markdown = '\n'.join(('```python-cell',
                           '@decorator',
                           'def f():',

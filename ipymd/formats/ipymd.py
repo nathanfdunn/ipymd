@@ -8,12 +8,6 @@ class IpymdReader(MarkdownReader):
 		if lang == 'python-cell':
 			return self._code_cell(code)
 		else:
-			# # Test the first line of the cell.
-			# first_line = code.splitlines()[0]
-			# if self._prompt.is_input(first_line):
-			# 	return self._code_cell(code)
-			# else:
-			# 	return self._markdown_cell_from_regex(m)
 			return self._markdown_cell_from_regex(m)
 
 	def _parse_output(self, cell):
@@ -65,7 +59,6 @@ class IpymdReader(MarkdownReader):
 
 class IpymdWriter(MarkdownWriter):
 	def append_code(self, input, output=None, metadata=None):
-		# code = self._prompt.from_cell(input, output)
 		code = input
 		wrapped = '```python-cell\n{code}\n```'.format(code=code.rstrip())
 		if output:
