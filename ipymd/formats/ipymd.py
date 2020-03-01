@@ -5,7 +5,7 @@ class IpymdReader(MarkdownReader):
 	def parse_fences(self, m):
 		lang = m.group(2)
 		code = m.group(3).rstrip()
-		if lang == 'jupyter':
+		if lang == 'python-cell':
 			return self._code_cell(code)
 		else:
 			# # Test the first line of the cell.
@@ -17,7 +17,7 @@ class IpymdReader(MarkdownReader):
 			return self._markdown_cell_from_regex(m)
 
 	def _parse_output(self, cell):
-		beginning = '```output\n'
+		beginning = '```output-cell\n'
 		if cell['cell_type'] != 'markdown' or not cell['source'].startswith(beginning):
 			return False, None
 
@@ -69,8 +69,8 @@ class IpymdWriter(MarkdownWriter):
 	def append_code(self, input, output=None, metadata=None):
 		# code = self._prompt.from_cell(input, output)
 		code = input
-		wrapped = '```jupyter\n{code}\n```'.format(code=code.rstrip())
-		wrapped += '\n```output\n{output}\n```'.format(output=output)
+		wrapped = '```python-cell\n{code}\n```'.format(code=code.rstrip())
+		wrapped += '\n```output-cell\n{output}\n```'.format(output=output)
 		self._output.write(self.meta(metadata) + wrapped)
 
 

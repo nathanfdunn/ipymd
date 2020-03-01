@@ -4,11 +4,11 @@ A paragraph.
 
 Python code:
 
-```jupyter
+```python-cell
 print("Hello world!")
 ```
 
-```output
+```output-cell
 Hello world!
 ```
 
