@@ -88,6 +88,7 @@ class FormatManager(LoggingConfigurable):
         """Look through the `setup_tools` `entry_points` and load all of
            the formats.
         """
+        # raise Exception(self.entry_point_group)
         for spec in iter_entry_points(self.entry_point_group):
             format_properties = {"name": spec.name}
             try:
