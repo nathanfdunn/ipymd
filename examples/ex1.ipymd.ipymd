@@ -8,6 +8,10 @@ Python code:
 print("Hello world!")
 ```
 
+```output
+Hello world!
+```
+
 JavaScript code:
 
 ```javascript

@@ -16,11 +16,61 @@ class IpymdReader(MarkdownReader):
 			# 	return self._markdown_cell_from_regex(m)
 			return self._markdown_cell_from_regex(m)
 
+	def _parse_output(self, cell):
+		beginning = '```output\n'
+		if cell['cell_type'] != 'markdown' or not cell['source'].startswith(beginning):
+			return False, None
+
+		content = cell['source'].replace(beginning, '', 1).rstrip().rstrip('`').rstrip()
+
+		return True, content
+
+	def read(self, text, rules=None):
+		raw_cells = super(MarkdownReader, self).read(text, rules)
+		cells = []
+
+		last_index = len(raw_cells) - 1
+
+		for i, cell in enumerate(raw_cells):
+			if cell['cell_type'] == 'cell_metadata':
+				if i + 1 <= last_index:
+					raw_cells[i + 1].update(metadata=cell['metadata'])
+			else:
+				cells.append(cell)
+
+		outcells = []
+		i = 0
+		while i < len(cells) - 1:
+			cell = cells[i]
+			next = cells[i+1]
+			is_output, output_content = self._parse_output(next)
+			if cell['cell_type'] == 'code' and is_output:
+				cell['output'] = output_content
+				outcells.append(cell)
+				i += 2		# skip the output block
+			else:
+				outcells.append(cell)
+				i += 1
+
+		outcells.append(cells[i])
+
+		return outcells
+
+
+	def _code_cell(self, source):
+		"""Split the source into input and output."""
+		# input, output = self._prompt.to_cell(source)
+		return {'cell_type': 'code',
+				'input': source,
+				'output': ''}			# Provide output on the second pass
+
+
 class IpymdWriter(MarkdownWriter):
 	def append_code(self, input, output=None, metadata=None):
 		# code = self._prompt.from_cell(input, output)
-		code = input + '\n' + output
+		code = input
 		wrapped = '```jupyter\n{code}\n```'.format(code=code.rstrip())
+		wrapped += '\n```output\n{output}\n```'.format(output=output)
 		self._output.write(self.meta(metadata) + wrapped)
 
 
