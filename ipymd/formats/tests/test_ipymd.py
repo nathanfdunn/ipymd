@@ -61,29 +61,31 @@ def test_markdown_markdown():
     _test_markdown_markdown('ex4')
 
 
-# def test_decorator():
-#     """Test a bug fix where empty '...' lines were added to the output."""
-#
-#     markdown = '\n'.join(('```',  # Not putting python still works thanks
-#                                   # to the input prompt.
-#                           '>>> @decorator',
-#                           '... def f():',
-#                           '...     """Docstring."""',
-#                           '...',
-#                           '...     # Comment.',
-#                           '...     pass',
-#                           '...',
-#                           '...     # Comment.',
-#                           '...     pass',
-#                           '...     pass',
-#                           'blah',
-#                           'blah',
-#                           '```'))
-#
-#     cells = convert(markdown, from_='ipymd')
-#
-#     assert '...' not in cells[0]['input']
-#     assert cells[0]['output'] == 'blah\nblah'
-#
-#     markdown_bis = convert(cells, to='ipymd')
-#     assert _diff(markdown, markdown_bis.replace('python', '')) == ''
+def test_decorator():
+    """Test a bug fix where empty '...' lines were added to the output."""
+
+    markdown = '\n'.join(('```python-cell',
+                          '@decorator',
+                          'def f():',
+                          '    """Docstring."""',
+                          '',
+                          '    # Comment.',
+                          '    pass',
+                          '',
+                          '    # Comment.',
+                          '    pass',
+                          '    pass',
+                          '```',
+                          '',
+                          '```output-cell',
+                          'blah',
+                          'blah',
+                          '```'))
+
+    cells = convert(markdown, from_='ipymd')
+
+    assert '...' not in cells[0]['input']
+    assert cells[0]['output'] == 'blah\nblah'
+
+    markdown_bis = convert(cells, to='ipymd')
+    assert _diff(markdown, markdown_bis) == ''

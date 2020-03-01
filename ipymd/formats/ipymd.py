@@ -18,7 +18,7 @@ class IpymdReader(MarkdownReader):
 
 	def _parse_output(self, cell):
 		beginning = '```output-cell\n'
-		if cell['cell_type'] != 'markdown' or not cell['source'].startswith(beginning):
+		if cell is None or cell['cell_type'] != 'markdown' or not cell['source'].startswith(beginning):
 			return False, None
 
 		content = cell['source'].replace(beginning, '', 1).rstrip().rstrip('`').rstrip()
@@ -40,9 +40,9 @@ class IpymdReader(MarkdownReader):
 
 		outcells = []
 		i = 0
-		while i < len(cells) - 1:
+		while i < len(cells):
 			cell = cells[i]
-			next = cells[i+1]
+			next = cells[i+1] if i + 1 < len(cells) else None
 			is_output, output_content = self._parse_output(next)
 			if cell['cell_type'] == 'code' and is_output:
 				cell['output'] = output_content
@@ -51,8 +51,6 @@ class IpymdReader(MarkdownReader):
 			else:
 				outcells.append(cell)
 				i += 1
-
-		outcells.append(cells[i])
 
 		return outcells
 
