@@ -4,9 +4,8 @@ A paragraph.
 
 Python code:
 
-```python
->>> print("Hello world!")
-Hello world!
+```jupyter
+print("Hello world!")
 ```
 
 JavaScript code:

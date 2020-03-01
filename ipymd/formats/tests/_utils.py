@@ -69,4 +69,7 @@ def _test_writer(basename, format):
     cells = _exec_test_file(basename)
     converted = convert(cells, to=format)
     expected = _read_test_file(basename, format)
+
+    # if format == 'ipymd':
+    #     raise Exception(converted + expected)
     return converted, expected
