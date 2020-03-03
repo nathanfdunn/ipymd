@@ -7,7 +7,13 @@ import sys
 from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
 
-
+from ipymd.core.format_manager import convert
+from ipymd.formats.tests.test_notebook import _test_notebook_reader, _test_notebook_writer, _test_notebook_notebook
+from ipymd.formats.tests.test_ipymd import _test_ipymd_ipymd
+x = convert(contents_or_path='examples/ex2.ipymd.ipymd', from_ = 'ipymd', to='ipymd')
+# x = convert(contents_or_path='examples/ex2.notebook.ipynb', from_ = 'notebook', to='ipymd')
+# _test_notebook_notebook('ex2')
+#_test_ipymd_ipymd('ex2')
 class PyTest(TestCommand):
     user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
 
